@@ -185,48 +185,7 @@
     <p class="footer-bottom">BSIS/BSIT Web Development Project &mdash; Phase 1 &nbsp;&middot;&nbsp; <a class="staff-link" href="admin.html">Staff login</a></p>
   </footer>
 
-  <script>
-    // 1. Handle the Login Form
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('loginUser').value;
-      const password = document.getElementById('loginPass').value;
-      const errorMsg = document.getElementById('loginError');
-
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-
-        if (res.ok) {
-          // Success! Remove the 'locked' CSS class and set session
-          sessionStorage.setItem('adm_session', JSON.stringify({ t: Date.now() }));
-          document.documentElement.classList.remove('locked');
-          
-          if (typeof loadAllTables === 'function') loadAllTables();
-        } else {
-          errorMsg.textContent = 'Invalid username or password.';
-        }
-      } catch (err) {
-        console.error("Login error:", err);
-        errorMsg.textContent = 'Server offline. Is node server.js running?';
-      }
-    });
-
-    // 2. Handle Password Toggle
-    document.getElementById('pwToggle').addEventListener('click', () => {
-      const p = document.getElementById('loginPass');
-      p.type = p.type === 'password' ? 'text' : 'password';
-    });
-
-    // 3. Handle Logout
-    function logout() {
-      sessionStorage.removeItem('adm_session');
-      window.location.reload();
-    }
-  </script>
+  
   
   <script src="js/admin.js"></script>
 </body>

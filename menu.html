@@ -91,67 +91,6 @@
 
   <script src="js/script.js"></script>
   
-  <script>
-    // 1. Fetch data from the Node.js backend (SQLite)
-    async function fetchMenuData() {
-      try {
-        const response = await fetch('/api/menu');
-        const data = await response.json();
-        return data; // The backend returns the array directly
-      } catch (error) {
-        console.error("Error loading menu data from server:", error);
-        document.getElementById('menuGrid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:red;">Failed to load menu. Is the Node.js server running? (node server.js)</p>';
-        return [];
-      }
-    }
-
-    // 2. Render the items to the grid
-    function renderMenu(items) {
-      const grid = document.getElementById('menuGrid');
-      if (!items || items.length === 0) {
-        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888; padding:2rem;">No items match your search.</p>';
-        return;
-      }
-
-      grid.innerHTML = items.map(item => `
-        <div class="card">
-          <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'" />
-          <div class="card-body">
-            ${item.tag ? `<span class="tag">${item.tag}</span>` : ''}
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <p class="price">₱${item.price}</p>
-            <small style="color:#888;">${item.category}</small>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // 3. Initialize and handle search/filter
-    document.addEventListener('DOMContentLoaded', async () => {
-      let allItems = await fetchMenuData();
-      renderMenu(allItems);
-
-      const searchInput = document.getElementById('searchInput');
-      const categoryFilter = document.getElementById('categoryFilter');
-
-      function filterItems() {
-        const query = searchInput.value.toLowerCase();
-        const category = categoryFilter.value;
-
-        const filtered = allItems.filter(item => {
-          const matchesSearch = item.name.toLowerCase().includes(query) ||
-                                (item.description || '').toLowerCase().includes(query);
-          const matchesCategory = category === 'All' || item.category === category;
-          return matchesSearch && matchesCategory;
-        });
-
-        renderMenu(filtered);
-      }
-
-      searchInput.addEventListener('input', filterItems);
-      categoryFilter.addEventListener('change', filterItems);
-    });
-  </script>
+  <script src="js/menu.js"></script>
 </body>
 </html>

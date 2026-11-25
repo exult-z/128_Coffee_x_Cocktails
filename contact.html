@@ -110,58 +110,6 @@
   </footer>
 
   <script src="js/script.js"></script>
-  <script>
-    // 1. Contact Form
-    document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      let valid = true;
-      document.querySelectorAll('#contactForm .form-group').forEach(g => g.classList.remove('invalid'));
-
-      const name = document.getElementById('cName');
-      const email = document.getElementById('cEmail');
-      const message = document.getElementById('cMessage');
-
-      if (name.value.trim().length < 2) { name.parentElement.classList.add('invalid'); valid = false; }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { email.parentElement.classList.add('invalid'); valid = false; }
-      if (message.value.trim().length < 10) { message.parentElement.classList.add('invalid'); valid = false; }
-
-      if (valid) {
-        await fetch('/api/inquiries', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), message: message.value.trim() })
-        });
-        document.getElementById('contactSuccess').style.display = 'block';
-        e.target.reset();
-        setTimeout(() => document.getElementById('contactSuccess').style.display = 'none', 4000);
-      }
-    });
-
-    // 2. Event Hosting Form
-    document.getElementById('spaceForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('sName').value;
-      const email = document.getElementById('sEmail').value;
-      const message = document.getElementById('sMessage').value;
-
-      if (!name || !email || !message) return alert('Please fill out all required fields.');
-
-      await fetch('/api/space_inquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          phone: document.getElementById('sPhone').value,
-          event_type: document.getElementById('sType').value,
-          event_date: document.getElementById('sDate').value,
-          message: message
-        })
-      });
-      document.getElementById('spaceSuccess').style.display = 'block';
-      e.target.reset();
-      setTimeout(() => document.getElementById('spaceSuccess').style.display = 'none', 4000);
-    });
-  </script>
+  <script src="js/reservation.js"></script>
 </body>
 </html>
